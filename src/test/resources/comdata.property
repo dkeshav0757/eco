@@ -1,0 +1,9 @@
+browser chrome
+timeout 10
+username admin
+password Test@123
+url http://rmgtestingserver/domain/Zoo_Management_System/
+randomNmberLimit 1000
+
+
+
