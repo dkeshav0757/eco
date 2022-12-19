@@ -2,6 +2,7 @@ package com.safezoo.genericUtility;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 
 import org.apache.poi.EncryptedDocumentException;
@@ -14,7 +15,8 @@ public class ExcelUtility {
 	
 	private Workbook workbook;
 	private DataFormatter df;
-	 FileInputStream fis;
+	private FileInputStream fis;
+	 private FileOutputStream fos;
 	
 	/**
 	 * This method is used open the workbook
@@ -64,6 +66,7 @@ public class ExcelUtility {
 		 */
 		public String getDataFromExcel(String sheetName,String expectedTestCase,String expectedKey)
 		{
+			 df=new DataFormatter();
 			Sheet sheet = workbook.getSheet(sheetName);
 			int lastRowNumber = sheet.getLastRowNum();
 			short lastCellNumber = sheet.getRow(0).getLastCellNum();
@@ -102,14 +105,61 @@ public class ExcelUtility {
 			int lastRowNumber = sheet.getLastRowNum();
 			short lastCellNumber = sheet.getRow(0).getLastCellNum();
 			String[][] arr =new String[lastRowNumber][lastCellNumber];
-			for(int i=0;i<lastRowNumber;i++)
+			for(int i=1;i<=lastRowNumber+1;i++)
 			{
-				for(int j=0;i<lastCellNumber;j++) {
+				for(int j=0;i<=lastCellNumber;j++) {
 			
 				arr[i][j]=df.formatCellValue(sheet.getRow(i).getCell(j));
+				
 			}
 			
 		    }
 		return arr;
 		}
+		/**
+		 * this method is used to get the last row number in excel
+		 * @return
+		 */
+
+		public int getLastRowNumOfExcel(String sheetName)
+		{
+
+			int lastRowNumber = workbook.getSheet(sheetName).getLastRowNum();
+			return lastRowNumber;
+		}
+
+
+
+
+
+		/**
+		 * This method used to get the last cell number in excel
+		 * @param sheetName
+		 * @param rowNumber
+		 * @return
+		 */
+		public int getLastCellNumOfExcel(String sheetName, int rowNumber)
+		{
+			int lastCellNumber = workbook.getSheet(sheetName).getRow(rowNumber).getLastCellNum();
+			return lastCellNumber;		
+		}
+		
+		/**
+		 * This method is Used to write the Result data into excel
+		 */
+		public void setDataIntoExcel(String sheetName, int rowNumber, int cellNumber, String result,String excelPath)
+		{	
+			workbook.getSheet(sheetName).getRow(rowNumber).getCell(cellNumber).setCellValue(result);
+
+			try {
+				fos = new FileOutputStream(excelPath);
+				try {
+					workbook.write(fos);
+				} catch (IOException e) {
+				}
+			} catch (FileNotFoundException e) {
+
+			}
+		}
+
 }

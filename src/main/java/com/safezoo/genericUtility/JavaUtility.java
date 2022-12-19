@@ -48,6 +48,14 @@ public Object stringToAnyDataType(String s,String stratergy)
 	int randomNumber=new Random().nextInt(limit);
 	return randomNumber;
   }
+   /**
+    * 
+    * @param actual
+    * @param expected
+    * @param printstatement
+    */
+   
+   
    public void verifyUsingIF_Else(String actual,String expected,String printstatement) {
   if(actual.equals(expected))
   {
@@ -58,12 +66,23 @@ public Object stringToAnyDataType(String s,String stratergy)
   }
 
   }
+   /**
+    * 
+    * @param s
+    * @param statergy
+    * @return
+    */
 
   public String[] splitString(String s,String statergy)
   {
 	return s.split(statergy);
 
  }
+  /**
+   * 
+   * @param s
+   * @return
+   */
   public int getMonthInMMFormat(String s)
  {
 	return DateTimeFormatter.ofPattern("MMMM")
@@ -72,6 +91,10 @@ public Object stringToAnyDataType(String s,String stratergy)
 			.get(ChronoField.MONTH_OF_YEAR);
 	
  }
+  /**
+   * 
+   * @return
+   */
   
   public String getDateTime() {
 	  Date date = new Date();

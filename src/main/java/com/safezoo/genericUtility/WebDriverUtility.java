@@ -32,11 +32,12 @@ import org.w3c.dom.Document;
 import io.github.bonigarcia.wdm.WebDriverManager;
 
 public class WebDriverUtility {
+	public static WebDriver sDriver;
 	private  WebDriver driver;
 	private Actions act;
 	private WebDriverWait wait;
 	private Robot r;
-	//private  WebDriver ddriver;
+	//private  static WebDriver ddriver;
 	/**
 	 * This method is used to 
 	 * launch browser based on browser key
@@ -255,10 +256,10 @@ public class WebDriverUtility {
 	  * @param driver
 	  * @author keshav
 	  */
-	  public void waitexpected_condition(WebDriver driver) 
+	  public void waitexpected_condition(WebDriver driver,String element) 
 	  {
 	  WebDriverWait wait=new WebDriverWait(driver, 10);
-	  wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("")));
+	  wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath(element)));
 	  }
 	 
 	  /**
@@ -304,14 +305,19 @@ public class WebDriverUtility {
 		
 	}
 	
-	public String takeScreenshot(String testCaseName) throws IOException 
+	public String takeScreenshot(WebDriver staticDriver, String testCaseName) 
 	{
 		String fileName = testCaseName +"_"+new JavaUtility().getDateTime();
 		TakesScreenshot ts=(TakesScreenshot)driver;
 		File src = ts.getScreenshotAs(OutputType.FILE);
 		File dest = new File("./errorshots+"+fileName+".png");
 		
-			FileUtils.copyFile(src, dest);
+			try {
+				FileUtils.copyFile(src, dest);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		
 		return dest.getAbsolutePath();
 	}
@@ -370,6 +376,7 @@ public class WebDriverUtility {
 		r.keyPress(KeyEvent.VK_H);
 		r.keyPress(KeyEvent.VK_ENTER);
 		
+	
 	}
 	
 	

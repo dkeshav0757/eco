@@ -1,14 +1,18 @@
 package com.safezoo.genericUtility;
 
-import java.io.IOException;
-
+import java.io.File;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.ITestResult;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
-import org.testng.asserts.SoftAssert;
-
+import org.testng.annotations.BeforeSuite;
+import com.aventstack.extentreports.ExtentReports;
+import com.aventstack.extentreports.ExtentTest;
+import com.aventstack.extentreports.Status;
+import com.aventstack.extentreports.reporter.ExtentSparkReporter;
+import com.aventstack.extentreports.reporter.configuration.Theme;
 import com.safezoo.ObjectRefository.AdminPage;
 import com.safezoo.ObjectRefository.EditAnimalPage;
 import com.safezoo.ObjectRefository.HomePage;
@@ -21,7 +25,7 @@ import com.safezoo.ObjectRefository.addForgnerZooTicket;
 import com.safezoo.ObjectRefository.addNormalZooTicket;
 import com.safezoo.ObjectRefository.commonPage;
 
-	   public class BaseClass {
+	   public class BaseClass    {
 	   protected WebDriver driver;
 	   protected JavaUtility javautility;
 	   protected ExcelUtility excelutility;
@@ -42,7 +46,25 @@ import com.safezoo.ObjectRefository.commonPage;
 	   protected SearchNomalTicket searchnormalticket;
 	   protected long timeout;
 	   
+	   //
+		public static WebDriver staticDriver;
+		public static ExtentReports report;
+		public static ExtentTest test;
+	   
 	   //public static WebDriver edriver;
+	   @BeforeSuite
+		public void configBS() {
+		    File file = new File(".\\ExtentReport\\report.html");
+			ExtentSparkReporter htmlReport=new ExtentSparkReporter(file);				
+	        htmlReport.config().setDocumentTitle("Extent Report");
+	        htmlReport.config().setTheme(Theme.DARK);
+	        htmlReport.config().setReportName("Functional Test");
+	         report=new ExtentReports();
+            report.attachReporter(htmlReport);
+	        report.setSystemInfo("TestURL", "https://example.com");
+	        report.setSystemInfo("Platform", "Windows 10");
+	        report.setSystemInfo("Reporter Name", "Nithesh");
+		}
 	
 		@BeforeClass
 		public void classSetup() {
@@ -76,6 +98,7 @@ import com.safezoo.ObjectRefository.commonPage;
 		
 		/** intililize the Browser*/
 		driver=webdriverUtility.launchApplication(browser,timeout,url);
+		staticDriver=driver;
 		//edriver=driver;
 		
 		wait = new WebDriverWait(driver,(Long) timeout);
@@ -98,16 +121,38 @@ import com.safezoo.ObjectRefository.commonPage;
 	
 		/** Logout the application*/
 		@AfterMethod
-		public void methodTearDown()
+		public void tearDown(ITestResult result) 
 		{
 	    comonpage=new commonPage(driver);
 		comonpage.LogoutActionAdmin();
 		comonpage.LogoutActionLog();
 		comonpage.LogoutActionHomepg();
-		//SoftAssert softAssert=new SoftAssert(); 
-		//softAssert.assertAll();
+		
+		
+		if(result.getStatus()==ITestResult.FAILURE) {
+		   test.log(Status.FAIL, result.getMethod().getMethodName()+" is failed");
+		   test.log(Status.FAIL, result.getThrowable());
+			try {
+				WebDriverUtility WebDriverutiity=new WebDriverUtility();
+				String path = WebDriverutiity.takeScreenshot(BaseClass.staticDriver, result.getMethod().getMethodName());
+				test.addScreenCaptureFromPath(path);
+			} catch (Throwable e) {
+					
+				e.printStackTrace();
+				}
+				
+			}
+			else if(result.getStatus()==ITestResult.SUCCESS) {
+				test.log(Status.PASS, result.getMethod().getMethodName()+" is passed");
+			}
+			else if(result.getStatus()==ITestResult.SKIP) {
+				test.log(Status.SKIP, result.getMethod().getMethodName()+" is skipped");				
+			    test.log(Status.SKIP, result.getThrowable());
+			}
+			
+			driver.close();
 		}
-	
-	
-}
+		}
+	   
+	  
 	

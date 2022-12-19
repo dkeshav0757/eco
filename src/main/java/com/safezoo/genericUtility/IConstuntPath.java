@@ -13,6 +13,7 @@ public interface IConstuntPath {
 	String PROPERTY_FILE_PATH="./src/test/resources/comdata.property";
 	
 	String IMAGE_PATH="./src/test/resources/tiger-traffic-jam.jpg";
+	
 	String EPATH="./src/shcreenshots";
 
 }

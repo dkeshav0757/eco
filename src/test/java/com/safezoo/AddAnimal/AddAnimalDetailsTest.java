@@ -25,23 +25,23 @@ import com.safezoo.genericUtility.ExcelUtility;
 import com.safezoo.genericUtility.FileUtility;
 import com.safezoo.genericUtility.IConstuntPath;
 import com.safezoo.genericUtility.JavaUtility;
+import com.safezoo.genericUtility.ListnerImplimentationClass;
 import com.safezoo.genericUtility.PropertyFileKeys;
 import com.safezoo.genericUtility.SheetName;
 import com.safezoo.genericUtility.WebDriverUtility;
-		@Listeners(com.safezoo.genericUtility.ListnerImplimentationClass.class)
+@Listeners(com.safezoo.genericUtility.ListnerImplimentationClass.class)
 			public class AddAnimalDetailsTest extends BaseClass {
 			
 			@Test
 			public void AddAnimal() {
 			
-				
+				ListnerImplimentationClass lic=new ListnerImplimentationClass();
 			/** read the test data*/
 			String AnimalName=excelutility.getDataFromExcel( SheetName.ANIMAL.ConverToString(),2,1);
 			String CageNumber=excelutility.getDataFromExcel(SheetName.ANIMAL.ConverToString(),2,2);
 			String FeedNumber=excelutility.getDataFromExcel(SheetName.ANIMAL.ConverToString(),2,3);
 			String Breed=excelutility.getDataFromExcel(SheetName.ANIMAL.ConverToString(),2,4);
 			String Description = excelutility.getDataFromExcel(SheetName.ANIMAL.ConverToString(),2,4);
-			
 			
 			/** Step2:click on animal Details module and click on add animal module*/
 			commonPage comonpage=new commonPage(driver);
@@ -75,28 +75,26 @@ import com.safezoo.genericUtility.WebDriverUtility;
 		Assert.fail();
 		editanimal.clickOnEditButton();
 			System.out.println("animal added sucessfully added--->Testcase pass");
+		
 			/** step: Edit the animal details*/
 			editanimal.clickOneditanimalName(AnimalName);
 			editanimal.clickOnAnimalDiscripn(Description);
 			editanimal.clickOnSubmitButton();
 			webdriverUtility.acceptAlert();
-			//Assert.fail();
-			/** step6: Logout the Action */
-			//comonpage.LogoutAction();
 			softAssert.assertAll();
 			}
 			
-		/**	@DataProvider
+		@DataProvider
 			public String[][] getData()
 			{
 				
 				ExcelUtility excelutility=new ExcelUtility();
 				excelutility.openExcel(IConstuntPath.EXCEL_PATH);
-				String[][] arr = excelutility.getDataFromExcel("logindata");
+				String[][] arr = excelutility.getDataFromExcel(SheetName.LOGINGDATA.ConverToString());
 				return arr;
 				
 			}
-			*/
+			
 			
 	}
 				

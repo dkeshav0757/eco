@@ -1,21 +1,28 @@
 package com.safezoo.genericUtility;
 
+import java.io.File;
 import java.io.IOException;
+import java.util.Date;
 
+import org.apache.commons.io.FileUtils;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.events.EventFiringWebDriver;
 import org.testng.ITestContext;
 import org.testng.ITestListener;
 import org.testng.ITestResult;
 
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
+import com.aventstack.extentreports.Status;
 import com.aventstack.extentreports.reporter.ExtentSparkReporter;
 import com.aventstack.extentreports.reporter.configuration.Theme;
 
 public class ListnerImplimentationClass implements ITestListener {
-	//WebDriver edriver;
 	private ExtentTest test;
 	private ExtentTest test1;
 	private ExtentReports report;
+	private WebDriverUtility WebDriverutiity;
 
 	@Override
 	public void onTestStart(ITestResult result) {
@@ -32,37 +39,33 @@ public class ListnerImplimentationClass implements ITestListener {
 
 	@Override
 	public void onTestFailure(ITestResult result)  {
-		System.out.println(Thread.currentThread().getId()+"onTestFailure");
-		ThreadSafe.getExtentTest().fail(result.getMethod().getMethodName()+"is failed");
-		ThreadSafe.getExtentTest().fail(result.getThrowable());
-		//String screenshot;
+		WebDriverutiity=new WebDriverUtility();
+		
+        test.log(Status.FAIL, result.getMethod().getMethodName()+" is failed");
+        test.log(Status.FAIL, result.getThrowable());
 		try {
-			String screenshot = ThreadSafe.getWebdriverutility().takeScreenshot(result.getMethod().getMethodName());
-			ThreadSafe.getExtentTest().addScreenCaptureFromBase64String(screenshot, result.getMethod().getMethodName());
-		} catch (IOException e) {
+			String path = WebDriverutiity.takeScreenshot(BaseClass.staticDriver, result.getMethod().getMethodName());
+			test.addScreenCaptureFromPath(path);
+		} catch (Throwable e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
-		
 	}
 
 	@Override
 	public void onTestSkipped(ITestResult result) {
-		System.out.println(Thread.currentThread().getId()+"onTestFailure");
-		ThreadSafe.getExtentTest().fail(result.getMethod().getMethodName()+"is skipped");
-		ThreadSafe.getExtentTest().fail(result.getThrowable());
-		//String screenshot;
+		
+	WebDriverutiity=new WebDriverUtility();
+		
+        test.log(Status.SKIP, result.getMethod().getMethodName()+" is skipped");
+        test.log(Status.SKIP, result.getThrowable());
 		try {
-			String screenshot = ThreadSafe.getWebdriverutility().takeScreenshot(result.getMethod().getMethodName());
-			ThreadSafe.getExtentTest().addScreenCaptureFromPath(screenshot);
-		} catch (IOException e) {
+			String path = WebDriverutiity.takeScreenshot(BaseClass.staticDriver, result.getMethod().getMethodName());
+			test.addScreenCaptureFromPath(path);
+		} catch (Throwable e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
 		
 	}
 
@@ -71,28 +74,18 @@ public class ListnerImplimentationClass implements ITestListener {
 	
 		
 	}
-	/**String screenshot = result.getName();
-	EventFiringWebDriver edriver=new EventFiringWebDriver(BaseClass.edriver);
-	File src = edriver.getScreenshotAs(OutputType.FILE);
-	File dest = new File("./screenshot"+screenshot+".png");
-	try {
-		FileUtils.copyFile(src, dest);
-	} catch (IOException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
-	}
-	*/
 
 	@Override
 	public void onStart(ITestContext context) {
+System.out.println("on start");
 		
-		ExtentSparkReporter spark=new ExtentSparkReporter("./extentReport");
-		spark.config().setDocumentTitle("Document Title");
-		spark.config().setReportName("Reporter Name");
+		ExtentSparkReporter spark=new ExtentSparkReporter("./Extent_Reports/Report.html");
+		spark.config().setDocumentTitle("Report");
+		spark.config().setReportName("Keshav");
 		spark.config().setTheme(Theme.DARK);
 		
 		
-		ExtentReports report = new ExtentReports();
+		report = new ExtentReports();
 		report.attachReporter(spark);
 		report.setSystemInfo("operating System", "Windows 10");
 		report.setSystemInfo("Browser name", "chrome");
@@ -103,9 +96,9 @@ public class ListnerImplimentationClass implements ITestListener {
 
 	@Override
 	public void onFinish(ITestContext context) {
-		ExtentReports report = new ExtentReports();
+		//ExtentReports report = new ExtentReports();
 		System.out.println(Thread.currentThread().getId()+"onTestFinish");
-		report.flush();
+		report.flush();	
 		// TODO Auto-generated method stub
 		
 	}

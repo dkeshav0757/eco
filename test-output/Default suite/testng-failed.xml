@@ -3,21 +3,15 @@
 <suite name="Failed suite [Default suite]" guice-stage="DEVELOPMENT">
   <test thread-count="5" name="Default test(failed)">
     <classes>
-      <class name="practice.TestNgpractice2">
+      <class name="practice.NormalTicketReport">
         <methods>
-          <include name="test8"/>
-          <include name="test7"/>
-          <include name="Test"/>
-          <include name="test9"/>
-          <include name="test4"/>
-          <include name="Test1"/>
-          <include name="test6"/>
-          <include name="ClassSetup"/>
-          <include name="Test2"/>
-          <include name="test2"/>
-          <include name="test1"/>
+          <include name="classSetup"/>
+          <include name="tearDown"/>
+          <include name="methodSetup"/>
+          <include name="AddAnimal"/>
+          <include name="configBS"/>
         </methods>
-      </class> <!-- practice.TestNgpractice2 -->
+      </class> <!-- practice.NormalTicketReport -->
     </classes>
   </test> <!-- Default test(failed) -->
 </suite> <!-- Failed suite [Default suite] -->

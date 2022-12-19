@@ -6,7 +6,7 @@ import org.testng.annotations.Test;
 import com.safezoo.genericUtility.ThreadSafe;
 import com.safezoo.genericUtility.WebDriverUtility;
 
-public class TestNgpractice3  extends TestBaseClass {
+public class TestNgpractice3  {
 	@Test (groups="sanity", alwaysRun=true)
 	public void Test()
 	{
