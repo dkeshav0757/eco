@@ -20,7 +20,6 @@ import com.aventstack.extentreports.reporter.configuration.Theme;
 
 public class ListnerImplimentationClass implements ITestListener {
 	private ExtentTest test;
-	private ExtentTest test1;
 	private ExtentReports report;
 	private WebDriverUtility WebDriverutiity;
 
@@ -33,7 +32,7 @@ public class ListnerImplimentationClass implements ITestListener {
 
 	@Override
 	public void onTestSuccess(ITestResult result) {
-		test1.pass(result.getMethod().getMethodName()+"is passed");
+		test.pass(result.getMethod().getMethodName()+"is passed");
 	
 	}
 

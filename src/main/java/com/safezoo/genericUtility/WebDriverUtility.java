@@ -18,6 +18,7 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebDriver.Options;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -35,7 +36,7 @@ public class WebDriverUtility {
 	public static WebDriver sDriver;
 	private  WebDriver driver;
 	private Actions act;
-	private WebDriverWait wait;
+	private FluentWait wait;
 	private Robot r;
 	//private  static WebDriver ddriver;
 	/**
@@ -70,6 +71,7 @@ public class WebDriverUtility {
 		{
 			System.out.println("please eneter the valid browser name");
 		}
+		Options s = driver.manage();
 		
 		driver.manage().window().maximize();
 		driver.manage().timeouts().implicitlyWait(timeout,TimeUnit.SECONDS);
@@ -98,9 +100,30 @@ public class WebDriverUtility {
 	 * @param Element
 	 * 
 	 */
-	public void initializeActions()
+	public void initializeActions(WebDriver driver,WebElement element)
 	{
 		act=new Actions(driver);
+		act.contextClick(element).perform();
+	}
+	/** * used for initialize the actions
+	 * @param driver
+	 * @param Element
+	 * 
+	 */
+	public void initializeActions1(WebDriver driver,WebElement element,WebElement element2)
+	{
+		act=new Actions(driver);
+		act.dragAndDrop(element, element2).perform();
+	}
+	/** * used for initialize the actions
+	 * @param driver
+	 * @param Element
+	 * 
+	 */
+	public void initializeActions2(WebDriver driver,WebElement element)
+	{
+		act=new Actions(driver);
+		act.moveToElement(element).perform();
 	}
 	/**
 	 * used for element to be clickable in gui and check for specific element for every 500 miliseconds
@@ -146,11 +169,13 @@ public class WebDriverUtility {
 	 * @param driver
 	 * @param Element
 	 * @param pollingtime
+	 * @return 
 	 */
 	public void wait_for_element_withcustomtimeout(WebDriver driver,WebElement Element,int pollingtime) {
-			FluentWait wait= new FluentWait(driver);
+			  wait= new FluentWait(driver);
 			wait.pollingEvery(Duration.ofSeconds(pollingtime));
 			wait.until(ExpectedConditions.elementToBeClickable(Element));
+			//return wait;
 	}
 	/**
 	 * used for element to be clickable in gui and check for specific element for every 500 miliseconds
@@ -239,7 +264,7 @@ public class WebDriverUtility {
 	  */
 	 public void select(WebElement elemnt,String text) {
 		  Select s=new Select(elemnt);
-		  s.selectByVisibleText(text);;
+		  s.selectByVisibleText(text);
 	 }
 	 
 	 
@@ -304,6 +329,7 @@ public class WebDriverUtility {
 		return driver.switchTo().alert().getText();
 		
 	}
+	
 	
 	public String takeScreenshot(WebDriver staticDriver, String testCaseName) 
 	{

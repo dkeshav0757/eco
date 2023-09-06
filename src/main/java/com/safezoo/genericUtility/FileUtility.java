@@ -33,10 +33,7 @@ public class FileUtility {
 					e1.printStackTrace();
 				}
 		
-			
-		
-		
-		property=new Properties();
+					property=new Properties();
 		
 			try {
 				property.load(fis);

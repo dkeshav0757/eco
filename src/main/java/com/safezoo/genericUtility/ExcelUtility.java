@@ -66,7 +66,7 @@ public class ExcelUtility {
 		 */
 		public String getDataFromExcel(String sheetName,String expectedTestCase,String expectedKey)
 		{
-			 df=new DataFormatter();
+			 
 			Sheet sheet = workbook.getSheet(sheetName);
 			int lastRowNumber = sheet.getLastRowNum();
 			short lastCellNumber = sheet.getRow(0).getLastCellNum();
@@ -107,7 +107,7 @@ public class ExcelUtility {
 			String[][] arr =new String[lastRowNumber][lastCellNumber];
 			for(int i=1;i<=lastRowNumber+1;i++)
 			{
-				for(int j=0;i<=lastCellNumber;j++) {
+				for(int j=0;j<=lastCellNumber;j++) {
 			
 				arr[i][j]=df.formatCellValue(sheet.getRow(i).getCell(j));
 				

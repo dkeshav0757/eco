@@ -7,8 +7,6 @@ import org.openqa.selenium.support.PageFactory;
 public class addForgnerZooTicket {
 	
 	
-
-	
 	@FindBy(linkText="Add Ticket") private WebElement addForgnerTicketsTab;
 	@FindBy(id="visitorname") private WebElement VisitorNameTextField;
 	@FindBy(id="noadult") private WebElement NoOfAdultsTextField;
