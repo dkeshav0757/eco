@@ -35,7 +35,7 @@ public class DynamicEle {
 	for(int j=0;j<pagenumber;j++)
 	{
 		List<WebElement> listorg = driver.findElements(By.xpath(""));
-		
+		System.out.println("helo");
 		for(int i=0;i<listorg.size();i++)
 		{
 			String ActualOrgName = listorg.get(i).getText();
